@@ -8,10 +8,10 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Setup .NET
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v4
       with:
         dotnet-version: '6.0.x'
 
@@ -25,8 +25,7 @@ jobs:
         dotnet ./dumper/Il2CppDumper.dll libil2cpp.so global-metadata.dat output
 
     - name: Upload Dump Result
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: dump-result
         path: output/
-        
