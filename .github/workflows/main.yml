@@ -20,15 +20,14 @@ jobs:
         wget https://github.com/Perfare/Il2CppDumper/releases/download/v6.7.46/Il2CppDumper-net6-v6.7.46.zip
         unzip Il2CppDumper-net6-v6.7.46.zip -d dumper
 
-    - name: Find files and Run Dumper
+    - name: Generate Config and Force Metadata
       run: |
-        echo "Bulunan dosyalar:"
-        find . -name "libil2cpp.so"
-        find . -name "global-metadata.dat"
+        # Config dosyasını dumper içine tam yetkiyle yazalım
+        echo '{"AutoClose": true, "GenerateStruct": true, "GenerateDummyDll": true, "ForceDump": true}' > dumper/config.json
         
-        # Dosyaları dumper klasörüne kopyalayıp garantiye alalım
-        find . -name "libil2cpp.so" -exec cp {} dumper/ \;
-        find . -name "global-metadata.dat" -exec cp {} dumper/ \;
+        # Dosyaları dumper dizinine taşıyalım
+        cp libil2cpp.so dumper/
+        cp global-metadata.dat dumper/
         
         cd dumper
         dotnet Il2CppDumper.dll libil2cpp.so global-metadata.dat output
