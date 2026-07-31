@@ -24,9 +24,7 @@ jobs:
     - name: Execute Dumper
       run: |
         mkdir -p output
-        pwd
-        ls -la
-        ../../compiled_dumper/Il2CppDumper libil2cpp.so global-metadata.dat output
+        ./compiled_dumper/Il2CppDumper libil2cpp.so global-metadata.dat output
         ls -la output
 
     - name: Upload Dump Result
