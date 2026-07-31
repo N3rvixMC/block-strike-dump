@@ -15,18 +15,14 @@ jobs:
       with:
         dotnet-version: '8.0.x'
 
-    - name: Download Precompiled Release
-      run: |
-        wget https://github.com/Perfare/Il2CppDumper/releases/download/v6.7.46/Il2CppDumper-net8-v6.7.46.zip
-        unzip Il2CppDumper-net8-v6.7.46.zip -d dumper
-
-    - name: Execute Dumper
+    - name: Install and Run Il2CppDumper via dotnet tool
       run: |
         mkdir -p output
-        cd dumper
-        dotnet Il2CppDumper.dll ../libil2cpp.so ../global-metadata.dat ../output || true
-        cd ../output
-        ls -la
+        dotnet tool install -g Il2CppDumper --version 6.7.46
+        export PATH="$PATH:/home/runner/.dotnet/tools"
+        
+        il2cppdumper libil2cpp.so global-metadata.dat output || true
+        ls -la output
 
     - name: Upload Dump Result
       uses: actions/upload-artifact@v4
