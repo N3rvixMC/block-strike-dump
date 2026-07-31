@@ -20,13 +20,15 @@ jobs:
         wget https://github.com/Perfare/Il2CppDumper/releases/download/v6.7.46/Il2CppDumper-net6-v6.7.46.zip
         unzip Il2CppDumper-net6-v6.7.46.zip -d dumper
 
-    - name: Run Dumper & Force Output
+    - name: Force Dump and Catch Logs
       run: |
         mkdir -p output
-        cd dumper
-        dotnet Il2CppDumper.dll ../libil2cpp.so ../global-metadata.dat ../output || true
+        echo "Baslangic logu" > output/log.txt
         
-        # Eğer output klasörü boşsa kontrol amaçlı dummy dosya koyalım ki artifact patlamasın
+        # Dumper'ı çalıştırıp tüm çıktıları ve hataları dosyaya yazdıralım
+        cd dumper
+        dotnet Il2CppDumper.dll ../libil2cpp.so ../global-metadata.dat ../output >> ../output/log.txt 2>&1 || true
+        
         cd ../output
         ls -la
 
