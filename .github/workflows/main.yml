@@ -15,20 +15,17 @@ jobs:
       with:
         dotnet-version: '6.0.x'
 
-    - name: Download Il2CppDumper
+    - name: Download Modded Dumper for Encrypted Metadata
       run: |
-        wget https://github.com/Perfare/Il2CppDumper/releases/download/v6.7.46/Il2CppDumper-net6-v6.7.46.zip
-        unzip Il2CppDumper-net6-v6.7.46.zip -d dumper
+        # Şifreli metadata destekleyen güncel modlu sürümü çekiyoruz
+        wget https://github.com/Krypton-Byte/Il2CppDumper/releases/download/v6.7.40-mod/Il2CppDumper.zip
+        unzip Il2CppDumper.zip -d dumper
 
-    - name: Force Dump and Catch Logs
+    - name: Run Bypass and Dump
       run: |
         mkdir -p output
-        echo "Baslangic logu" > output/log.txt
-        
-        # Dumper'ı çalıştırıp tüm çıktıları ve hataları dosyaya yazdıralım
         cd dumper
-        dotnet Il2CppDumper.dll ../libil2cpp.so ../global-metadata.dat ../output >> ../output/log.txt 2>&1 || true
-        
+        dotnet Il2CppDumper.dll ../libil2cpp.so ../global-metadata.dat ../output || true
         cd ../output
         ls -la
 
