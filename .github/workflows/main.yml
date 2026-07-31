@@ -15,19 +15,15 @@ jobs:
       with:
         dotnet-version: '6.0.x'
 
-    - name: Download Il2CppDumper
+    - name: Download and Extract Il2CppDumper
       run: |
         wget https://github.com/Perfare/Il2CppDumper/releases/download/v6.7.46/Il2CppDumper-net6-v6.7.46.zip
         unzip Il2CppDumper-net6-v6.7.46.zip -d dumper
 
-    - name: Create Config everywhere
+    - name: Run Dumper correctly
       run: |
-        echo '{"AutoClose": true, "GenerateStruct": true, "GenerateDummyDll": true}' > config.json
-        cp config.json ./dumper/
-
-    - name: Run Dumper
-      run: |
-        dotnet ./dumper/Il2CppDumper.dll libil2cpp.so global-metadata.dat output
+        cd dumper
+        dotnet Il2CppDumper.dll ../libil2cpp.so ../global-metadata.dat ../output
 
     - name: Upload Dump Result
       uses: actions/upload-artifact@v4
