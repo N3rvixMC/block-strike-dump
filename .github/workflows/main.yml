@@ -20,9 +20,10 @@ jobs:
         wget https://github.com/Perfare/Il2CppDumper/releases/download/v6.7.46/Il2CppDumper-net6-v6.7.46.zip
         unzip Il2CppDumper-net6-v6.7.46.zip -d dumper
 
-    - name: Create Config for AutoClose
+    - name: Create Config everywhere
       run: |
-        echo '{"AutoClose": true, "GenerateStruct": true, "GenerateDummyDll": true}' > ./dumper/config.json
+        echo '{"AutoClose": true, "GenerateStruct": true, "GenerateDummyDll": true}' > config.json
+        cp config.json ./dumper/
 
     - name: Run Dumper
       run: |
