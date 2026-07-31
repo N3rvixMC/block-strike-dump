@@ -13,13 +13,13 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: '6.0.x'
+        dotnet-version: '8.0.x'
 
     - name: Clone and Build Official Dumper
       run: |
         git clone https://github.com/Perfare/Il2CppDumper.git
         cd Il2CppDumper/Il2CppDumper
-        dotnet publish -c Release -o ../publish
+        dotnet publish -c Release -f net8.0 -o ../publish
 
     - name: Execute Dumper
       run: |
