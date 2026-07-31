@@ -13,20 +13,20 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: '8.0.x'
+        dotnet-version: '6.0.x'
 
-    - name: Clone and Build Source Directly
+    - name: Build Il2CppDumper from Source
       run: |
-        git clone https://github.com/Perfare/Il2CppDumper.git
-        cd Il2CppDumper/Il2CppDumper
-        dotnet build -c Release
-        cd bin/Release/net8.0
-        
-        mkdir -p ../../../../output
-        ./Il2CppDumper ../../../../libil2cpp.so ../../../../global-metadata.dat ../../../../output || true
-        
-        cd ../../../../output
-        ls -la
+        git clone https://github.com/Perfare/Il2CppDumper.git dumper_src
+        cd dumper_src/Il2CppDumper
+        dotnet publish -c Release -r linux-x64 --self-contained true -o ../../compiled_dumper
+
+    - name: Execute Dumper
+      run: |
+        mkdir -p output
+        # libil2cpp.so ve global-metadata.dat dosyalarının deponun ana dizininde olduğundan emin ol
+        ./compiled_dumper/Il2CppDumper libil2cpp.so global-metadata.dat output || true
+        ls -la output
 
     - name: Upload Dump Result
       uses: actions/upload-artifact@v4
