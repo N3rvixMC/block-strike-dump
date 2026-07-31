@@ -17,11 +17,16 @@ jobs:
 
     - name: Download Il2CppDumper
       run: |
-        dotnet tool install --global Il2CppDumper-net
+        curl -s https://api.github.com/repos/Perfare/Il2CppDumper/releases/latest \
+        | grep "browser_download_url.*zip" \
+        | cut -d : -f 2,3 \
+        | tr -d \" \
+        | wget -qi -
+        unzip Il2CppDumper-*.zip -d dumper
 
     - name: Run Dumper
       run: |
-        il2cppdumper libil2cpp.so global-metadata.dat output
+        dotnet ./dumper/Il2CppDumper.dll libil2cpp.so global-metadata.dat output
 
     - name: Upload Dump Result
       uses: actions/upload-artifact@v4
