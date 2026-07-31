@@ -17,12 +17,8 @@ jobs:
 
     - name: Download Il2CppDumper
       run: |
-        curl -s https://api.github.com/repos/Perfare/Il2CppDumper/releases/latest \
-        | grep "browser_download_url.*zip" \
-        | cut -d : -f 2,3 \
-        | tr -d \" \
-        | wget -qi -
-        unzip Il2CppDumper-*.zip -d dumper
+        wget https://github.com/Perfare/Il2CppDumper/releases/download/v6.7.46/Il2CppDumper-net6-v6.7.46.zip
+        unzip Il2CppDumper-net6-v6.7.46.zip -d dumper
 
     - name: Run Dumper
       run: |
