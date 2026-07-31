@@ -13,19 +13,19 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: '6.0.x'
+        dotnet-version: '8.0.x'
 
-    - name: Download Stable Release Zip
+    - name: Clone and Build Source Directly
       run: |
-        wget https://github.com/Perfare/Il2CppDumper/releases/download/v6.7.46/Il2CppDumper-v6.7.46.zip
-        unzip Il2CppDumper-v6.7.46.zip -d dumper
-
-    - name: Execute Dumper
-      run: |
-        mkdir -p output
-        cd dumper
-        dotnet Il2CppDumper.dll ../libil2cpp.so ../global-metadata.dat ../output || true
-        cd ../output
+        git clone https://github.com/Perfare/Il2CppDumper.git
+        cd Il2CppDumper/Il2CppDumper
+        dotnet build -c Release
+        cd bin/Release/net8.0
+        
+        mkdir -p ../../../../output
+        ./Il2CppDumper ../../../../libil2cpp.so ../../../../global-metadata.dat ../../../../output || true
+        
+        cd ../../../../output
         ls -la
 
     - name: Upload Dump Result
