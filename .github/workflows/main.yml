@@ -20,20 +20,15 @@ jobs:
         wget https://github.com/Perfare/Il2CppDumper/releases/download/v6.7.46/Il2CppDumper-net6-v6.7.46.zip
         unzip Il2CppDumper-net6-v6.7.46.zip -d dumper
 
-    - name: Bypass and Force Dump
+    - name: Run Dumper Safe Mode
       run: |
-        # Metadata versiyonunu ve zorlamayı config'e işleyelim
-        echo '{"AutoClose": true, "GenerateStruct": true, "GenerateDummyDll": true, "ForceDump": true, "DumpMethod": true, "DumpField": true, "DumpProperty": true, "DumpAttribute": true, "ampilkan": true}' > dumper/config.json
-        
-        cp libil2cpp.so dumper/
-        cp global-metadata.dat dumper/
-        
+        mkdir -p output
         cd dumper
-        # Komut satırından unity versiyonunu zorlayarak geçmeyi deneyelim
-        dotnet Il2CppDumper.dll libil2cpp.so global-metadata.dat output || true
+        # Hata verse bile süreci durdurmayıp logları görelim
+        dotnet Il2CppDumper.dll ../libil2cpp.so ../global-metadata.dat ../output || echo "Dumper uyarisi alindi"
         
-        mkdir -p ../output
-        cp -r output/* ../output/ || echo "Çıktı oluşmadı"
+        # Eğer dump.cs oluştuysa görelim
+        ls -la ../output
 
     - name: Upload Dump Result
       uses: actions/upload-artifact@v4
