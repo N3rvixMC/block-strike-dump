@@ -20,9 +20,13 @@ jobs:
         wget https://github.com/Perfare/Il2CppDumper/releases/download/v6.7.46/Il2CppDumper-net6-v6.7.46.zip
         unzip Il2CppDumper-net6-v6.7.46.zip -d dumper
 
+    - name: Create Config for AutoClose
+      run: |
+        echo '{"AutoClose": true, "GenerateStruct": true, "GenerateDummyDll": true}' > ./dumper/config.json
+
     - name: Run Dumper
       run: |
-        dotnet ./dumper/Il2CppDumper.dll $(pwd)/libil2cpp.so $(pwd)/global-metadata.dat $(pwd)/output
+        dotnet ./dumper/Il2CppDumper.dll libil2cpp.so global-metadata.dat output
 
     - name: Upload Dump Result
       uses: actions/upload-artifact@v4
