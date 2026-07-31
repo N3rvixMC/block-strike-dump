@@ -15,10 +15,10 @@ jobs:
       with:
         dotnet-version: '8.0.x'
 
-    - name: Install and Run Il2CppDumper via dotnet tool
+    - name: Install and Run Latest Il2CppDumper
       run: |
         mkdir -p output
-        dotnet tool install -g Il2CppDumper --version 6.7.46
+        dotnet tool install -g Il2CppDumper
         export PATH="$PATH:/home/runner/.dotnet/tools"
         
         il2cppdumper libil2cpp.so global-metadata.dat output || true
