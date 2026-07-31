@@ -15,6 +15,9 @@ jobs:
       with:
         dotnet-version: '6.0.x'
 
+    - name: Check files
+      run: ls -la
+
     - name: Download Il2CppDumper
       run: |
         wget https://github.com/Perfare/Il2CppDumper/releases/download/v6.7.46/Il2CppDumper-net6-v6.7.46.zip
