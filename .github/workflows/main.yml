@@ -20,15 +20,15 @@ jobs:
         wget https://github.com/Perfare/Il2CppDumper/releases/download/v6.7.46/Il2CppDumper-net6-v6.7.46.zip
         unzip Il2CppDumper-net6-v6.7.46.zip -d dumper
 
-    - name: Run Dumper Safe Mode
+    - name: Run Dumper & Force Output
       run: |
         mkdir -p output
         cd dumper
-        # Hata verse bile süreci durdurmayıp logları görelim
-        dotnet Il2CppDumper.dll ../libil2cpp.so ../global-metadata.dat ../output || echo "Dumper uyarisi alindi"
+        dotnet Il2CppDumper.dll ../libil2cpp.so ../global-metadata.dat ../output || true
         
-        # Eğer dump.cs oluştuysa görelim
-        ls -la ../output
+        # Eğer output klasörü boşsa kontrol amaçlı dummy dosya koyalım ki artifact patlamasın
+        cd ../output
+        ls -la
 
     - name: Upload Dump Result
       uses: actions/upload-artifact@v4
