@@ -15,16 +15,16 @@ jobs:
       with:
         dotnet-version: '6.0.x'
 
-    - name: Download Modded Dumper for Encrypted Metadata
+    - name: Clone and Build Official Dumper
       run: |
-        # Şifreli metadata destekleyen güncel modlu sürümü çekiyoruz
-        wget https://github.com/Krypton-Byte/Il2CppDumper/releases/download/v6.7.40-mod/Il2CppDumper.zip
-        unzip Il2CppDumper.zip -d dumper
+        git clone https://github.com/Perfare/Il2CppDumper.git
+        cd Il2CppDumper/Il2CppDumper
+        dotnet publish -c Release -o ../publish
 
-    - name: Run Bypass and Dump
+    - name: Execute Dumper
       run: |
         mkdir -p output
-        cd dumper
+        cd publish
         dotnet Il2CppDumper.dll ../libil2cpp.so ../global-metadata.dat ../output || true
         cd ../output
         ls -la
